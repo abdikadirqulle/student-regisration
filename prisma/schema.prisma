@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  profile   Profile?
+  phone     Int
+  
+//   courses    Course[]
+  enrollments Enrollment[]
+  createdAt DateTime @default(now())
+}
+
+model Profile {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String   @db.ObjectId @unique
+  age       Int
+  major     String
+  bio       String?
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  code        String      @unique
+  credits     Int
+  instructor  String      // Or you can reference an Instructor model
+  description String?
+  enrollments Enrollment[]
+  semester    String      // e.g., "Fall 2024"
+  createdAt   DateTime    @default(now())
+}
+
+model Enrollment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  student    Student  @relation(fields: [studentId], references: [id])
+  studentId  String   @db.ObjectId
+  course     Course   @relation(fields: [courseId], references: [id])
+  courseId   String   @db.ObjectId
+  enrollmentDate DateTime @default(now())
+  grade      Float?
+}
+
+model Admin {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String   @unique
+  password String
+  createdAt DateTime @default(now())
+}
