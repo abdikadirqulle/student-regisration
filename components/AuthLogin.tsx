@@ -11,7 +11,7 @@ import React from "react"
 // import { signIn, signUp } from './actions';
 // import { ActionState } from '@/lib/auth/middleware';
 
-export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
+export function AuthLogin({ mode = "signin" }: { mode?: "signin" | "signup" }) {
   const searchParams = useSearchParams()
   const redirect = searchParams.get("redirect")
   const priceId = searchParams.get("priceId")
@@ -46,6 +46,29 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
           <input type="hidden" name="redirect" value={redirect || ""} />
           <input type="hidden" name="priceId" value={priceId || ""} />
           <input type="hidden" name="inviteId" value={inviteId || ""} />
+          {mode === "signup" && (
+            <div>
+              <Label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </Label>
+              <div className="mt-1">
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  maxLength={50}
+                  className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#41A85C] focus:border-[#41A85C] focus:z-10 sm:text-sm"
+                  placeholder="Enter your name"
+                />
+              </div>
+            </div>
+          )}
+
           <div>
             <Label
               htmlFor="email"
