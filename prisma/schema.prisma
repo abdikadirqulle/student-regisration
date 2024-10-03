@@ -13,26 +13,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Student {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  studentId   Int      @unique                   
-  name      String
-  email     String   @unique
-  profile   Profile?
-  phone     Int?
-//   courses    Course[]
-  enrollments Enrollment[]
-  createdAt DateTime @default(now())
+model Student { 
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  studentId      String       @unique
+  name           String
+  email          String?
+  gender         String
+  phone          Int
+  parentName     String
+  parentPhone    Int
+
+  
+  
+  profile        Profile?
+  enrollments    Enrollment[]
+  createdAt      DateTime  @default(now())
 }
 
+
 model Profile {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  student   Student  @relation(fields: [studentId], references: [id])
-  studentId String   @db.ObjectId @unique
-  age       Int
-  major     String
-  bio       String?
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  student        Student  @relation(fields: [studentId], references: [id])
+  studentId      String   @db.ObjectId @unique
+  age            Int
+  //   school         String
+//   rollNumber     Int
+//   average        String
+  faculty        String
+  department     String
+  major          String
+  bio            String?
+  updatedAt      DateTime @updatedAt
 }
 
 model Course {
@@ -42,6 +53,7 @@ model Course {
   credits     Int
   instructor  String      // Or you can reference an Instructor model
   description String?
+
   enrollments Enrollment[]
   semester    String      // e.g., "Fall 2024"
   createdAt   DateTime    @default(now())
