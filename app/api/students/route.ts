@@ -1,23 +1,23 @@
-import db from "@/lib/db"
-import { NextResponse } from "next/server"
+import db from "@/lib/db";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const students = await db.student.findMany()
+    const students = await db.student.findMany();
 
-    return NextResponse.json({ result: students }, { status: 200 })
+    return NextResponse.json({ result: students }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { messeage: "Failed to fetch student", error: error },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }
 
 export async function POST(request: Request) {
   try {
     const { name, email, studentId, phone, gender, parentPhone, parentName } =
-      await request.json()
+      await request.json();
 
     // Find the max studentId to ensure the next student gets the next available ID
     // const lastStudent = await db.student.findFirst({
@@ -43,12 +43,12 @@ export async function POST(request: Request) {
       where: {
         studentId,
       },
-    })
+    });
     if (student)
       return NextResponse.json(
         { message: "student ID already take!" },
-        { status: 404 }
-      )
+        { status: 404 },
+      );
 
     const newStudent = await db.student.create({
       data: {
@@ -60,13 +60,13 @@ export async function POST(request: Request) {
         parentPhone,
         parentName,
       },
-    })
+    });
 
-    return NextResponse.json({ newStudent }, { status: 201 })
+    return NextResponse.json({ newStudent }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { messeage: "Failed to create student", error: error },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }
