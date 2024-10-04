@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import Link from "next/link"
+import Link from "next/link";
 // import { useActionState } from 'react';
-import { useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { CircleIcon, Loader2 } from "lucide-react"
-import React from "react"
+import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { CircleIcon, Loader2 } from "lucide-react";
+import React from "react";
 // import { signIn, signUp } from './actions';
 // import { ActionState } from '@/lib/auth/middleware';
 
 export function AuthLogin({ mode = "signin" }: { mode?: "signin" | "signup" }) {
-  const searchParams = useSearchParams()
-  const redirect = searchParams.get("redirect")
-  const priceId = searchParams.get("priceId")
-  const inviteId = searchParams.get("inviteId")
-  const pending = false
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  const priceId = searchParams.get("priceId");
+  const inviteId = searchParams.get("inviteId");
+  const pending = false;
 
   //   const mode = "signin";
 
@@ -167,5 +167,5 @@ export function AuthLogin({ mode = "signin" }: { mode?: "signin" | "signup" }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
