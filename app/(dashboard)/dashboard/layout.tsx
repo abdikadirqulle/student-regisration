@@ -1,26 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Users, Settings, Menu, Book } from "lucide-react"
-import { DashboardIcon } from "@radix-ui/react-icons"
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Users,
+  Settings,
+  Menu,
+  Book,
+  PlusIcon,
+  PlusCircle,
+} from "lucide-react";
+import { DashboardIcon } from "@radix-ui/react-icons";
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const pathname = usePathname()
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navItems = [
     { href: "/dashboard", icon: DashboardIcon, label: "Dashboard" },
-    { href: "/dashboard/students", icon: Users, label: "Students" },
+    { href: "/dashboard/students", icon: PlusCircle, label: "Enroll Student" },
+    {
+      href: "/dashboard/studentsm",
+      icon: Users,
+      label: "Students Management",
+    },
     { href: "/dashboard/courses", icon: Book, label: "Courses" },
     { href: "/dashboard/settings", icon: Settings, label: "Settings" },
-  ]
+  ];
 
   return (
     <div className="flex flex-col min-h-[calc(100dvh-68px)] max-w-8xl mx-auto w-full">
@@ -42,7 +54,7 @@ export default function DashboardLayout({
       <div className="flex flex-1 overflow-hidden h-full">
         {/* Sidebar */}
         <aside
-          className={`w-56 bg-white lg:bg-gray-50 border-r border-gray-200 lg:block ${
+          className={`w-60 bg-white lg:bg-gray-50 border-r border-gray-200 lg:block ${
             isSidebarOpen ? "block" : "hidden"
           } lg:relative absolute inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -54,7 +66,7 @@ export default function DashboardLayout({
                 <Button
                   variant={pathname === item.href ? "secondary" : "ghost"}
                   className={`my-1 w-full justify-start ${
-                    pathname === item.href ? "bg-gray-100" : ""
+                    pathname === item.href ? "bg-[#C0EBA6]" : ""
                   }`}
                   onClick={() => setIsSidebarOpen(false)}
                 >
@@ -70,5 +82,5 @@ export default function DashboardLayout({
         <main className="flex-1 overflow-y-auto p-0 lg:p-4">{children}</main>
       </div>
     </div>
-  )
+  );
 }

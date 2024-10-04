@@ -1,31 +1,34 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Home, LogOut } from "lucide-react"
+import Link from "next/link";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Home, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-// import { useUser } from '@/lib/auth';
-// import { signOut } from '@/app/(login)/actions';
-import { useRouter } from "next/navigation"
-import Image from "next/image"
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { logout } from "@/actions/logout";
+import {
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@radix-ui/react-dropdown-menu";
+import { AvatarIcon } from "@radix-ui/react-icons";
 
 function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  //   const { user, setUser } = useUser();
-  const user = "daadaa"
-  const router = useRouter()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
+  const user = session?.user;
 
-  async function handleSignOut() {
-    // setUser(null);
-    // await signOut();
-    router.push("/")
+  function handleSignOut() {
+    logout();
   }
 
   return (
@@ -36,47 +39,40 @@ function Header() {
         </Link>
         <div className="flex items-center space-x-4">
           {user ? (
-            <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Avatar className="cursor-pointer size-9">
-                  <AvatarImage alt={user || ""} />
-                  <AvatarFallback>
-                    {user
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="overflow-hidden rounded-full"
+                >
+                  <AvatarIcon className="h-6 w-6" />
+                </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="p-0">
-                <DropdownMenuItem className="w-full cursor-pointer m-1">
-                  <Link href="/dashboard" className="flex w-full items-center">
-                    <Home className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                </DropdownMenuItem>
-                <form action={handleSignOut} className="p-1">
-                  <button type="submit" className="flex w-full">
-                    <DropdownMenuItem className="w-full cursor-pointer">
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Sign out</span>
-                    </DropdownMenuItem>
-                  </button>
-                </form>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {user ? (
+                  <DropdownMenuItem>
+                    <form action={handleSignOut}>
+                      <button type="submit">Sign Out</button>
+                    </form>
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem>
+                    <Link href="/auth/sig-in">Sign In</Link>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <Button
-              asChild
-              className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded-full"
-            >
-              <Link href="/sign-up">Sign Up</Link>
-            </Button>
-          )}
+          ) : null}
         </div>
       </div>
     </header>
-  )
+  );
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -85,5 +81,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       {children}
     </section>
-  )
+  );
 }

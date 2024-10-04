@@ -7,5 +7,5 @@ export default function Dashboard() {
         <li>recent activity</li>
       </ul>
     </section>
-  )
+  );
 }
