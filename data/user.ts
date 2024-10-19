@@ -19,3 +19,12 @@ export const getAdminById = async (id: string) => {
     return null;
   }
 };
+
+export const getStudents = async () => {
+  try {
+    const students = await db.student.findMany();
+    return students;
+  } catch {
+    return null;
+  }
+};
