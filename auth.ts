@@ -15,6 +15,14 @@ export const {
     signIn: "/auth/sign-in",
     error: "/auth/error",
   },
+  events: {
+    async linkAccount({ user }) {
+      await db.admin.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   callbacks: {
     async signIn({ user, account }) {
       // Allow OAuth without email verification
@@ -26,11 +34,42 @@ export const {
       const existingAdmin = await getAdminById(user.id);
 
       // Prevent sign in without email verification
+      if (!existingAdmin?.emailVerified) return false;
 
       return true;
+    },
+    async jwt({ token, user, account }) {
+      if (!token.sub) return token;
+
+      const existingUser = await getAdminById(token.sub);
+
+      if (!existingUser) return token;
+
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+
+      //   if (user) {
+      //       token.accessToken = user.accessToken;
+      //   }
+
+      return { ...token, ...user };
+    },
+    async session({ token, session, user }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email as string;
+        // session.accessToken = token.accessToken;
+      }
+
+      return session;
     },
   },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
   ...authConfig,
+  secret: process.env.NEXTAUTH_SECRET, // Set a secret key
 });

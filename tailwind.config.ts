@@ -51,11 +51,31 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+      //   borderRadius: {
+      //     lg: "var(--radius)",
+      //     md: "calc(var(--radius) - 2px)",
+      //     sm: "calc(var(--radius) - 4px)",
+      //   },
+      //   textColor: {
+      //     primary: "var(--gray-12)",
+      //     secondary: "#00AA0E",
+      //     tertiary: "var(--gray-9)",
+      //     brand: "var(--brand)",
+      //     link: "var(--blue-10)",
+      //   },
+      //   backgroundColor: {
+      //     primary: "#00AA0E",
+      //     secondary: "#0053F7",
+      //     secondaryA: "var(--gray-a4)",
+      //     tertiary: "var(--gray-3)",
+      //   },
+      //   borderColor: {
+      //     primary: "var(--gray-6)",
+      //     secondary: "var(--gray-4)",
+      //   },
+      //   ringOffsetColor: {
+      //     primary: "var(--gray-12)",
+      //   },
     },
   },
   plugins: [require("tailwindcss-animate")],
