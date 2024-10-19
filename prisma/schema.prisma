@@ -15,36 +15,36 @@ datasource db {
 
 model Student { 
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  studentId      String       @unique
   name           String
   email          String?
   gender         String
   phone          Int
   parentName     String
   parentPhone    Int
-
+  field          String
+  course          String
   
   
-  profile        Profile?
+//   profile        Profile?
   enrollments    Enrollment[]
   createdAt      DateTime  @default(now())
 }
 
 
-model Profile {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  student        Student  @relation(fields: [studentId], references: [id])
-  studentId      String   @db.ObjectId @unique
-  age            Int
-  //   school         String
-//   rollNumber     Int
-//   average        String
-  faculty        String
-  department     String
-  major          String
-  bio            String?
-  updatedAt      DateTime @updatedAt
-}
+// model Profile {
+//   id             String   @id @default(auto()) @map("_id") @db.ObjectId
+//   student        Student  @relation(fields: [studentId], references: [id])
+//   studentId      String   @db.ObjectId @unique
+//   age            Int
+//   //   school         String
+// //   rollNumber     Int
+// //   average        String
+//   faculty        String
+//   department     String
+//   major          String
+//   bio            String?
+//   updatedAt      DateTime @updatedAt
+// }
 
 model Course {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
@@ -76,7 +76,27 @@ model Admin {
   password         String
   emailVerified    DateTime?
 
+  accounts      Account[]
   createdAt DateTime @default(now())
+}
+
+model Account {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?   @db.String
+  access_token       String?   @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?   @db.String
+  session_state      String?
+
+  user Admin @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 model VerificationToken {
