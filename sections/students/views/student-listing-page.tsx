@@ -58,7 +58,7 @@ export default async function StudentsListingPage({
 
   // //   Assuming the API returns similar structure with users and total_users
   //        const totalUsers = data?.total_users;
-  //        const students: Employee[] = data?.users;
+  //        const students: Students[] = data?.users;
 
   const safeStudents = students || [];
   const totalUsers = safeStudents.length;

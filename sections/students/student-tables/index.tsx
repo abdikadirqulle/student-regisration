@@ -4,11 +4,11 @@ import { DataTable } from "@/components/ui/table/data-table";
 import { DataTableFilterBox } from "@/components/ui/table/data-table-filter-box";
 import { DataTableResetFilter } from "@/components/ui/table/data-table-reset-filter";
 import { DataTableSearch } from "@/components/ui/table/data-table-search";
-import { Employee, Students } from "@/constants/data";
+import { Students } from "@/constants/data";
 import { columns } from "./columns";
 import {
   GENDER_OPTIONS,
-  useEmployeeTableFilters,
+  useStudentTableFilters,
 } from "./use-student-table-filters";
 
 export default function StudentTable({
@@ -26,7 +26,7 @@ export default function StudentTable({
     searchQuery,
     setPage,
     setSearchQuery,
-  } = useEmployeeTableFilters();
+  } = useStudentTableFilters();
 
   return (
     <div className="space-y-4 ">

@@ -1,7 +1,7 @@
 import { StudentViewPage } from "@/sections/students/views";
 
 export const metadata = {
-  title: "Dashboard : Employee View",
+  title: "Dashboard : Students View",
 };
 
 export default function Page() {

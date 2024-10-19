@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { getStudents } from "@/data/user";
 import { searchParamsCache } from "@/lib/searchparams";
-
 import StudentsListingPage from "@/sections/students/views/student-listing-page";
 
 import { SearchParams } from "nuqs/parsers";

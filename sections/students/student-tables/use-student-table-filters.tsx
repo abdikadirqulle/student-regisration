@@ -9,22 +9,22 @@ export const GENDER_OPTIONS = [
   { value: "female", label: "Female" },
 ];
 
-export function useEmployeeTableFilters() {
+export function useStudentTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
     "q",
     searchParams.q
       .withOptions({ shallow: false, throttleMs: 1000 })
-      .withDefault(""),
+      .withDefault("")
   );
 
   const [genderFilter, setGenderFilter] = useQueryState(
     "gender",
-    searchParams.gender.withOptions({ shallow: false }).withDefault(""),
+    searchParams.gender.withOptions({ shallow: false }).withDefault("")
   );
 
   const [page, setPage] = useQueryState(
     "page",
-    searchParams.page.withDefault(1),
+    searchParams.page.withDefault(1)
   );
 
   const resetFilters = useCallback(() => {
