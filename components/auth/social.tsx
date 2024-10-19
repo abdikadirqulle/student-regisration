@@ -32,7 +32,7 @@ export const Social = () => {
         size="lg"
         className="w-full"
         variant="outline"
-        onClick={() => onClick("github")}
+        // onClick={() => onClick("github")}
       >
         <FaGithub className="h-5 w-5" />
       </Button>
