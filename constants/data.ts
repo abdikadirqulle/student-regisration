@@ -1,6 +1,5 @@
 export type Students = {
   id: string;
-  studentId: string;
   name: string;
   email: string;
   gender: string;

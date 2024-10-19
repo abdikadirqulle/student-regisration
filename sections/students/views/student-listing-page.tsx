@@ -20,7 +20,7 @@ const breadcrumbItems = [
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type TStudentListingPage = {
   id: string;
-  studentId: string;
+
   name: string;
   email: string | null;
   createdAt: Date;
