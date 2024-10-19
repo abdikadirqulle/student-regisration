@@ -15,6 +15,7 @@ datasource db {
 
 model Student { 
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    // studentId      String       @unique
   name           String
   email          String?
   gender         String
