@@ -4,16 +4,23 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Users,
-  Settings,
-  Menu,
-  Book,
-  PlusIcon,
-  PlusCircle,
-} from "lucide-react";
 import { DashboardIcon } from "@radix-ui/react-icons";
+import { Users, Settings, Menu, Book } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import Image from "next/image";
 
+const navItems = [
+  { href: "/dashboard", icon: DashboardIcon, label: "Dashboard" },
+  { href: "/dashboard/students", icon: Users, label: "Students" },
+  { href: "/dashboard/courses", icon: Book, label: "Courses" },
+  { href: "/dashboard/settings", icon: Settings, label: "Settings" },
+];
 export default function DashboardLayout({
   children,
 }: {
@@ -22,35 +29,8 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const navItems = [
-    { href: "/dashboard", icon: DashboardIcon, label: "Dashboard" },
-    { href: "/dashboard/students", icon: PlusCircle, label: "Enroll Student" },
-    {
-      href: "/dashboard/studentsm",
-      icon: Users,
-      label: "Students Management",
-    },
-    { href: "/dashboard/courses", icon: Book, label: "Courses" },
-    { href: "/dashboard/settings", icon: Settings, label: "Settings" },
-  ];
-
   return (
     <div className="flex flex-col min-h-[calc(100dvh-68px)] max-w-8xl mx-auto w-full">
-      {/* Mobile header */}
-      <div className="lg:hidden flex items-center justify-between bg-white border-b border-gray-200 p-4">
-        <div className="flex items-center">
-          <span className="font-medium">Settings</span>
-        </div>
-        <Button
-          className="-mr-3"
-          variant="ghost"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        >
-          <Menu className="h-6 w-6" />
-          <span className="sr-only">Toggle sidebar</span>
-        </Button>
-      </div>
-
       <div className="flex flex-1 overflow-hidden h-full">
         {/* Sidebar */}
         <aside
@@ -66,7 +46,7 @@ export default function DashboardLayout({
                 <Button
                   variant={pathname === item.href ? "secondary" : "ghost"}
                   className={`my-1 w-full justify-start ${
-                    pathname === item.href ? "bg-[#C0EBA6]" : ""
+                    pathname === item.href ? "bg-gray-300" : ""
                   }`}
                   onClick={() => setIsSidebarOpen(false)}
                 >
@@ -82,5 +62,43 @@ export default function DashboardLayout({
         <main className="flex-1 overflow-y-auto p-0 lg:p-4">{children}</main>
       </div>
     </div>
+  );
+}
+
+export function MobileNav() {
+  const pathname = usePathname();
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button size="icon" variant="outline" className="lg:hidden">
+          <Menu className="h-6 w-6" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left" className="sm:max-w-xs">
+        <SheetHeader>
+          <SheetTitle>
+            <Link href="/" className="flex items-center">
+              <Image alt="ku icon" src="/ku.png" width={150} height={150} />
+            </Link>
+          </SheetTitle>
+        </SheetHeader>
+        <nav className="w-52 grid gap-6 text-lg font-medium mt-10">
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href} passHref>
+              <Button
+                variant={pathname === item.href ? "secondary" : "ghost"}
+                className={`my-1 w-full justify-start ${
+                  pathname === item.href ? "bg-gray-300" : ""
+                }`}
+                // onClick={() => setIsSidebarOpen(false)}
+              >
+                <item.icon className="mr-2 h-4 w-4" />
+                {item.label}
+              </Button>
+            </Link>
+          ))}
+        </nav>
+      </SheetContent>
+    </Sheet>
   );
 }
